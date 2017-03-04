@@ -1,0 +1,109 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='测试扫描'">
+<meta charset="utf-8"></meta>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+	<div th:replace="layout :: navbar">(navbar)</div>
+
+	<div class="container">
+		<!-- container -->
+		<div class="starter-template">
+			<h1>测试扫描</h1>
+		</div>
+		<div class="col-sm-12">
+			<form id="form" class="form-horizontal">
+				<div class="form-group">
+					<label for="handenter" class="col-sm-2 control-label">手动回车</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="handenter" />
+					</div>
+					<div class="col-sm-4 error-msg"></div>
+				</div>
+
+				<div class="form-group">
+					<label for="autoenter" class="col-sm-2 control-label">自动回车</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="autoenter" />
+					</div>
+					<div class="col-sm-4 error-msg"></div>
+				</div>
+
+				<div class="form-group">
+					<label for="inputcontent" class="col-sm-2 control-label">扫描内容</label>
+					<div class="col-sm-6">
+						<textarea id="inputcontent" class="form-control" rows="5"></textarea>
+					</div>
+					<div class="col-sm-4 error-msg"></div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- container -->
+	<div th:include="layout :: footer" id="footer"
+		style="padding-top: 64px">(footer)</div>
+
+	<script>
+		var ch = "";
+		$(document).ready(function() {
+			$("#handenter").on('input', function(e) {
+				ch = $(this).val();
+				$("#autoenter").val(ch.length);
+				if (ch.charAt(ch.length-1) === "@") {
+				    //$("#inputcontent").html(ch);
+				    var req = {
+						"content" : ch,
+						"name" : "lijianqiang"
+					};
+				    //alert(typeof(req));
+				    getAnswer("/web/parse", JSON.stringify(req), function(data){
+				    	$("#inputcontent").html(data.data);
+				    }, function(res){
+				    	$("#inputcontent").html(res);
+				    });
+				}
+			});
+			
+			var getAnswer = function(url, data, successCb, errorCb) {
+				$.ajax({
+			    url:url,
+			    contentType: "application/json",
+			    type:'POST', //GET
+			    async:true,    //或false,是否异步
+			    data:data,
+			    timeout:5000,    //超时时间
+			    dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+			    beforeSend:function(xhr){
+			        console.log(xhr)
+			        console.log('发送前')
+			    },
+			    success:function(data, status, jqXHR){
+			    	console.log('--------success--------->')
+			        console.log(data)
+			        console.log("status:" + status)
+			        console.log(jqXHR)
+			        successCb(data)
+			    },
+			    error:function(xhr, status){
+			        console.log('错误')
+			        console.log(xhr)
+			        console.log(status)
+			        if (errorCb != null) {
+			        	errorCb(xhr.responseJSON.data)
+			        }
+			    },
+			    complete:function(){
+			    	console.log('--------complete--------->')
+			        console.log('结束')
+			    }
+			});
+			}
+		});
+		
+		var postData = function () {
+			
+		};
+	</script>
+</body>
+</html>
