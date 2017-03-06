@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.boot.entity.domain.Foo;
-import com.spring.boot.mybatis.mapper.FooMapper;
+import com.spring.boot.mybatis.mapper.master.FooMasterMapper;
 import com.spring.boot.service.FooService;
 
 @Service("fooService")
@@ -18,7 +18,7 @@ public class FooServiceImpl implements FooService {
 	private static final Logger LOG = LoggerFactory.getLogger(FooServiceImpl.class);
 
 	@Autowired
-	FooMapper mapper;
+	FooMasterMapper mapper;
 
 	@Override
 	public Foo add(Foo foo) {
@@ -55,5 +55,11 @@ public class FooServiceImpl implements FooService {
 			return null;
 		}
 	}
+
+    @Override
+    public boolean update(Foo foo) {
+        int res = mapper.updateByPrimaryKey(foo);
+        return (res > 0);
+    }
 
 }

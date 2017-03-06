@@ -22,15 +22,21 @@ public class TransServiceImpl implements TransService {
 	@Transactional
 	@Override
 	public boolean addSomeFoo(int num) {
-		Foo foo = new Foo();
-		for (int i=1;i<num;i++) {
-			foo.setAge(i);
-			foo.setName(StringUtil.getRandomString(i * 10));
-			Foo res = fooService.add(foo);
-			if (res != null) {
-				LOG.info("foo add success : {}", foo.getAge());
-			}
-		}
+	    LOG.info("do add and update : num=" + num);
+        Foo john = fooService.getById(1);
+        john.setAge(num);
+        boolean update = fooService.update(john);
+        LOG.info("update result:" + (update ? "success" : "failed"));
+        
+        Foo foo = new Foo();
+        foo.setAge(num);
+        foo.setName(StringUtil.getRandomString(20));
+        fooService.add(foo);
+        LOG.info("add result: ok");
+        
+        if (num%2 == 0) {
+            throw new NullPointerException();
+        }
 		return false;
 	}
 

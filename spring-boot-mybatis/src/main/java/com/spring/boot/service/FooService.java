@@ -10,4 +10,6 @@ public interface FooService {
 	public Foo getById(int id);
 	
 	public List<Foo> getAll();
+	
+	public boolean update(Foo foo);
 }
