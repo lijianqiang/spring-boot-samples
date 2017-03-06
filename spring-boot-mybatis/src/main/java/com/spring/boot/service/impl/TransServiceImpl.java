@@ -1,5 +1,7 @@
 package com.spring.boot.service.impl;
 
+import java.sql.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.boot.entity.domain.Foo;
+import com.spring.boot.mybatis.mapper.slave.FooSlaveMapper;
 import com.spring.boot.service.FooService;
 import com.spring.boot.service.TransService;
 import com.spring.boot.utils.StringUtil;
@@ -18,6 +21,9 @@ public class TransServiceImpl implements TransService {
 	
 	@Autowired
 	FooService fooService;
+	
+    @Autowired
+    private FooSlaveMapper fooSlave;
 
 	@Transactional
 	@Override
@@ -39,5 +45,21 @@ public class TransServiceImpl implements TransService {
         }
 		return false;
 	}
+
+	@Transactional
+    @Override
+    public boolean doSomeFoo(int num) {
+        Foo foo = new Foo();
+        foo.setAge(num);
+        foo.setName(StringUtil.getRandomString(20));
+        foo.setCreated(new Date(System.currentTimeMillis()));
+        fooSlave.insert(foo);
+        LOG.info("slave add result: ok");
+        
+        if (num%2 == 0) {
+            throw new NullPointerException();
+        }
+        return false;
+    }
 
 }
