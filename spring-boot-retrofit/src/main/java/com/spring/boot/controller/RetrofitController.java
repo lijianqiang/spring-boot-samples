@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.boot.entity.domain.Foo;
+import com.spring.boot.net.request.AppsRequest;
+import com.spring.boot.net.response.ApiResponse;
+import com.spring.boot.net.response.body.AppsBody;
 import com.spring.boot.retrofit.ClientRetrofit;
 import com.spring.boot.retrofit.ClientRxjava;
 import com.spring.boot.retrofit.RetrofitApiManager;
@@ -19,6 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
 
@@ -35,6 +39,7 @@ public class RetrofitController {
 		List<String> res = new ArrayList<String>(2);
 		res.add("/origin");
 		res.add("/rxjava");
+		res.add("/apps");
 		return JsonUtil.toJson(res);
 	}
 	
@@ -45,6 +50,7 @@ public class RetrofitController {
 		
 		ClientRetrofit client = RetrofitApiManager.createOrigin();
 		Call<List<Foo>> call = client.listFoo();
+		
 		call.enqueue(new Callback<List<Foo>>() {
 			
 			@Override
@@ -104,5 +110,33 @@ public class RetrofitController {
 		});
 		
 		return "/retrofit/rxjava finish";
+	}
+	
+	@RequestMapping("/apps")
+	@ResponseBody
+	public String actionApps() {
+		LOG.info("/retrofit/apps");
+		AppsRequest appsRequest = new AppsRequest();
+		appsRequest.email = "aaa@bbb.com";
+		ClientRxjava client = RetrofitApiManager.createRxjava();
+		Observable<ApiResponse<AppsBody>> observable = client.getApps(appsRequest);
+		observable.subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Observer<ApiResponse<AppsBody>>() {
+
+			@Override
+			public void onNext(ApiResponse<AppsBody> t) {
+				LOG.info("/retrofit/apps:onNext:{}", JsonUtil.toJson(t));
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				LOG.error("/retrofit/apps:onError", e);
+			}
+
+			@Override
+			public void onCompleted() {
+				LOG.info("/retrofit/apps:onCompleted");
+			}
+		});
+		return "/retrofit/apps finish";
 	}
 }
