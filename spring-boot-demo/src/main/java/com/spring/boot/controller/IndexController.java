@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexController {
 
-	@RequestMapping("/")
-	public String actionIndex() {
-		return "hello world";
-	}
-
-
+    @RequestMapping("/")
+    public String actionIndex() {
+        return "hello world";
+    }
 
 }

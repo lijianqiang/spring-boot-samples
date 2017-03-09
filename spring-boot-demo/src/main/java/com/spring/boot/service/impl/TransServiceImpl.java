@@ -15,30 +15,30 @@ import com.spring.boot.utils.StringUtil;
 @Service("transService")
 public class TransServiceImpl implements TransService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(TransServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TransServiceImpl.class);
 
-	@Autowired
-	FooService fooService;
+    @Autowired
+    FooService fooService;
 
-	@Override
-	public boolean addSomeFoo(int num) {
-		LOG.info("do add and update : num=" + num);
-		Foo john = fooService.getById(1);
-		john.setAge(num);
-		boolean update = fooService.update(john);
-		LOG.info("update result:" + (update ? "success" : "failed"));
-		
-		Foo foo = new Foo();
-		foo.setAge(num);
-		foo.setName(StringUtil.getRandomString(20));
-		fooService.add(foo);
-		LOG.info("add result: ok");
-		
-		if (num%2 == 0) {
-			throw new NullPointerException();
-		}
-		
-		return false;
-	}
+    @Override
+    public boolean addSomeFoo(int num) {
+        LOG.info("do add and update : num=" + num);
+        Foo john = fooService.getById(1);
+        john.setAge(num);
+        boolean update = fooService.update(john);
+        LOG.info("update result:" + (update ? "success" : "failed"));
+
+        Foo foo = new Foo();
+        foo.setAge(num);
+        foo.setName(StringUtil.getRandomString(20));
+        fooService.add(foo);
+        LOG.info("add result: ok");
+
+        if (num % 2 == 0) {
+            throw new NullPointerException();
+        }
+
+        return false;
+    }
 
 }

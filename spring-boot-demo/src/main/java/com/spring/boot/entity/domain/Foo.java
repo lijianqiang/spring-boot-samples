@@ -3,47 +3,45 @@ package com.spring.boot.entity.domain;
 import java.sql.Date;
 
 public class Foo {
-	
-	private int id;
-	
-	private String name;
-	
-	private long age;
-	
-	private Date created;
 
-	public int getId() {
-		return id;
-	}
+    private int id;
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    private long age;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private Date created;
 
-	public long getAge() {
-		return age;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setAge(long age) {
-		this.age = age;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public Date getCreated() {
-		return created;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setCreated(Date created) {
-		this.created = created;
-	}
-	
-	
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getAge() {
+        return age;
+    }
+
+    public void setAge(long age) {
+        this.age = age;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
 }

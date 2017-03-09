@@ -23,29 +23,29 @@ import com.spring.boot.utils.StringUtil;
 @RequestMapping("/redis")
 public class RedisController {
 
-	/**
-	 * Member Description
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(RedisController.class);
+    /**
+     * Member Description
+     */
+    private static final Logger LOG = LoggerFactory.getLogger(RedisController.class);
 
-	@Autowired
-	private FooService fooService;
+    @Autowired
+    private FooService fooService;
 
-	@Autowired
-	private RedisClusterTemplate myRedisTemplate;
+    @Autowired
+    private RedisClusterTemplate myRedisTemplate;
 
-	@RequestMapping(method = { RequestMethod.GET })
-	@ResponseBody
-	public String getAction(HttpServletRequest request) {
-		LOG.debug("hello world");
-		Gson gson = new Gson();
-		String value = myRedisTemplate.get(RedisConstants.USER_FORWARD_CACHE_PREFIX, "foos");
-		if (StringUtil.isEmpty(value)) {
-			List<Foo> foos = fooService.getAll();
-			myRedisTemplate.set(RedisConstants.USER_FORWARD_CACHE_PREFIX, "foos", gson.toJson(foos));
-			return "aaaaaaaaa";
-		}
-		return value;
-	}
+    @RequestMapping(method = { RequestMethod.GET })
+    @ResponseBody
+    public String getAction(HttpServletRequest request) {
+        LOG.debug("hello world");
+        Gson gson = new Gson();
+        String value = myRedisTemplate.get(RedisConstants.USER_FORWARD_CACHE_PREFIX, "foos");
+        if (StringUtil.isEmpty(value)) {
+            List<Foo> foos = fooService.getAll();
+            myRedisTemplate.set(RedisConstants.USER_FORWARD_CACHE_PREFIX, "foos", gson.toJson(foos));
+            return "aaaaaaaaa";
+        }
+        return value;
+    }
 
 }
