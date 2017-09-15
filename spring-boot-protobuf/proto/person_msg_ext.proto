@@ -8,6 +8,8 @@ message PersonExt
 	extend Person {
 		optional PersonExt persionExt = 101;
 	}
+	
+	// 扩展的字段
     required string city = 1; 
 }  
   

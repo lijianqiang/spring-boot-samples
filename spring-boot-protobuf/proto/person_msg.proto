@@ -9,7 +9,7 @@ message Person
   
     optional string email = 3; 
   
-    // 100µ½200Ö®¼äµÄ×÷ÎªÀ©Õ¹µÄ±êÊ¶ºÅ  
+    // 100åˆ°200ä¹‹é—´çš„ä½œä¸ºæ‰©å±•çš„æ ‡è¯†å·
     extensions 100 to 200;
 }  
   
