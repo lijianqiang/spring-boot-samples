@@ -13,3 +13,7 @@ person_msg.proto生成PersonProtobuf
 person_msg_ext.proto生成PersonProtobufExt
 
 > 扩展了一个字段
+
+### ref
+
+http://blog.csdn.net/u014489596/article/details/39395943
