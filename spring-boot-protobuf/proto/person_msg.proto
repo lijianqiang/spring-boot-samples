@@ -1,0 +1,16 @@
+option java_package = "com.demo.protobuf.model"; 
+option java_outer_classname = "PersonProtobuf"; 
+
+message Person 
+{ 
+    required int32 id = 1; 
+
+    required string name = 2; 
+  
+    optional string email = 3; 
+  
+    // 100到200之间的作为扩展的标识号  
+    extensions 100 to 200;
+}  
+  
+  

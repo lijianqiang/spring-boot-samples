@@ -1,0 +1,14 @@
+option java_package = "com.demo.protobuf.model"; 
+option java_outer_classname = "PersonProtobufExt"; 
+
+import "person_msg.proto";
+
+message PersonExt 
+{
+	extend Person {
+		optional PersonExt persionExt = 101;
+	}
+    required string city = 1; 
+}  
+  
+  
