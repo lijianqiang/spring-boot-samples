@@ -1,3 +1,5 @@
+syntax = "proto3";
+
 option java_package = "com.demo.protobuf.model"; 
 option java_outer_classname = "PersonProtobufExt"; 
 
