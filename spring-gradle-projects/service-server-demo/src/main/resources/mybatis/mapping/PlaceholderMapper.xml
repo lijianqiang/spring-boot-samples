@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.openplan.server.mybatis.mapper.PlaceholderMapper">
+	<resultMap id="BaseResultMap" type="com.openplan.server.domain.model.Placeholder">
+		<id column="id" jdbcType="INTEGER" property="id" />
+	    <result column="unid" jdbcType="VARCHAR" property="unid" />
+	    <result column="placer_id" jdbcType="INTEGER" property="placerId" />
+	    <result column="province_no" jdbcType="INTEGER" property="provinceNo" />
+		<result column="city_no" jdbcType="INTEGER" property="cityNo" />
+		<result column="region_no" jdbcType="INTEGER" property="regionNo" />
+	    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+	    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+	    <result column="geohash" jdbcType="VARCHAR" property="geohash" />
+	    <result column="address" jdbcType="VARCHAR" property="address" />
+	    <result column="enable" jdbcType="BIT" property="enable" />
+	    <result column="type" jdbcType="INTEGER" property="type" />
+	    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+	    <result column="update_at" jdbcType="BIGINT" property="updateAt" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, unid, placer_id, province_no, city_no, region_no, longitude, latitude, geohash, address, enable, type, create_at, update_at
+	</sql>
+	<sql id="Base_Condition_Query_Sql">
+		  <if test="unid != null">
+	        and unid = #{unid,jdbcType=VARCHAR}
+	      </if>
+	      <if test="placer_id != null">
+	        and placer_id = #{placer_id,jdbcType=INTEGER}
+	      </if>
+	      <if test="province_no != null">
+			and province_no = #{province_no,jdbcType=INTEGER}
+		  </if>
+		  <if test="city_no != null">
+			and city_no = #{city_no,jdbcType=INTEGER}
+		  </if>
+		  <if test="region_no != null">
+			and region_no = #{region_no,jdbcType=INTEGER}
+		  </if>
+	      <if test="longitude != null">
+	        and longitude = #{longitude,jdbcType=VARCHAR}
+	      </if>
+	      <if test="latitude != null">
+	        and latitude = #{latitude,jdbcType=VARCHAR}
+	      </if>
+	      <if test="geohash != null">
+	        and geohash = #{geohash,jdbcType=VARCHAR}
+	      </if>
+	      <if test="address != null">
+	        and address = #{address,jdbcType=VARCHAR}
+	      </if>
+	      <if test="enable != null">
+	        and enable = #{enable,jdbcType=BIT}
+	      </if>
+	      <if test="type != null">
+	        and type = #{type,jdbcType=INTEGER}
+	      </if>
+	      <if test="update_at != null">
+	        and update_at = #{update_at,jdbcType=BIGINT}
+	      </if>
+	</sql>
+	<sql id="Page_Condition_Query_Sql">
+		<if test="order != null">
+			order by ${order} ${sort}
+		</if>
+		<if test="limit != null">
+			limit #{limit,jdbcType=INTEGER}
+		</if>
+		<if test="offset != null">
+			offset #{offset,jdbcType=INTEGER}
+		</if>
+	</sql>
+
+
+	<select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tbl_placeholder
+		where id = #{id,jdbcType=INTEGER} and deleted = 0
+	</select>
+	<delete id="deleteById" parameterType="com.openplan.server.domain.model.Placeholder">
+		update tbl_placeholder
+		set deleted = 1, update_at = #{updateAt,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.openplan.server.domain.model.Placeholder" useGeneratedKeys="true" keyProperty="id">
+		insert into tbl_placeholder 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+	      <if test="unid != null">
+	        unid,
+	      </if>
+	      <if test="placerId != null">
+	        placer_id,
+	      </if>
+	      <if test="provinceNo != null">
+			province_no,
+		  </if>
+		  <if test="cityNo != null">
+			city_no,
+		  </if>
+		  <if test="regionNo != null">
+			region_no,
+		  </if>
+	      <if test="longitude != null">
+	        longitude,
+	      </if>
+	      <if test="latitude != null">
+	        latitude,
+	      </if>
+	      <if test="geohash != null">
+	        geohash,
+	      </if>
+	      <if test="address != null">
+	        address,
+	      </if>
+	      <if test="enable != null">
+	        enable,
+	      </if>
+	      <if test="type != null">
+	        type,
+	      </if>
+	      <if test="createAt != null">
+	        create_at,
+	      </if>
+	      <if test="updateAt != null">
+	        update_at,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	      <if test="unid != null">
+	        #{unid,jdbcType=VARCHAR},
+	      </if>
+	      <if test="placerId != null">
+	        #{placerId,jdbcType=INTEGER},
+	      </if>
+	      <if test="provinceNo != null">
+			#{provinceNo,jdbcType=INTEGER},
+		  </if>
+		  <if test="cityNo != null">
+			#{cityNo,jdbcType=INTEGER},
+		  </if>
+		  <if test="regionNo != null">
+			#{regionNo,jdbcType=INTEGER},
+		  </if>
+	      <if test="longitude != null">
+	        #{longitude,jdbcType=VARCHAR},
+	      </if>
+	      <if test="latitude != null">
+	        #{latitude,jdbcType=VARCHAR},
+	      </if>
+	      <if test="geohash != null">
+	        #{geohash,jdbcType=VARCHAR},
+	      </if>
+	      <if test="address != null">
+	        #{address,jdbcType=VARCHAR},
+	      </if>
+	      <if test="enable != null">
+	        #{enable,jdbcType=BIT},
+	      </if>
+	      <if test="type != null">
+	        #{type,jdbcType=INTEGER},
+	      </if>
+	      <if test="createAt != null">
+	        #{createAt,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="updateAt != null">
+	        #{updateAt,jdbcType=BIGINT},
+	      </if>
+	    </trim>
+	</insert>
+	<update id="updateById" parameterType="com.openplan.server.domain.model.Placeholder">
+		update tbl_placeholder
+	    <set>
+	      <if test="unid != null">
+	        unid = #{unid,jdbcType=VARCHAR},
+	      </if>
+	      <if test="placerId != null">
+	        placer_id = #{placerId,jdbcType=INTEGER},
+	      </if>
+	      <if test="provinceNo != null">
+			#{provinceNo,jdbcType=INTEGER},
+		  </if>
+		  <if test="cityNo != null">
+			#{cityNo,jdbcType=INTEGER},
+		  </if>
+	      <if test="regionNo != null">
+			#{regionNo,jdbcType=INTEGER},
+		  </if>
+	      <if test="longitude != null">
+	        longitude = #{longitude,jdbcType=VARCHAR},
+	      </if>
+	      <if test="latitude != null">
+	        latitude = #{latitude,jdbcType=VARCHAR},
+	      </if>
+	      <if test="geohash != null">
+	        geohash = #{geohash,jdbcType=VARCHAR},
+	      </if>
+	      <if test="address != null">
+	        address = #{address,jdbcType=VARCHAR},
+	      </if>
+	      <if test="enable != null">
+	        enable = #{enable,jdbcType=BIT},
+	      </if>
+	      <if test="type != null">
+	        type = #{type,jdbcType=INTEGER},
+	      </if>
+	      <if test="updateAt != null">
+	        update_at = #{updateAt,jdbcType=BIGINT},
+	      </if>
+	    </set>
+	    where id = #{id,jdbcType=INTEGER} and deleted = 0
+	</update>
+	<select id="countAll" resultType="int">
+		select count(1)
+		from tbl_placeholder
+		where deleted = 0
+	</select>
+	<select id="countByCondition" resultType="int" parameterType="java.util.Map">
+		select
+		count(1)
+		from tbl_placeholder
+		where deleted = 0
+		<include refid="Base_Condition_Query_Sql" />
+	</select>
+	<select id="listByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from tbl_placeholder
+		where deleted = 0
+		<include refid="Base_Condition_Query_Sql" />
+		<include refid="Page_Condition_Query_Sql" />
+	</select>
+</mapper>

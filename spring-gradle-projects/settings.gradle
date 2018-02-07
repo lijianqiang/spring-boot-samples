@@ -1,0 +1,10 @@
+/*
+ * 多模块项目
+ *
+ */
+
+rootProject.name = 'spring-gradle-projects'
+
+include 'service-server-demo'
+include 'demo-extra'
+include 'common-tools'
