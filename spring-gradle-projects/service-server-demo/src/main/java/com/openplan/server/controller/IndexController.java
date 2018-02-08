@@ -65,4 +65,15 @@ public class IndexController {
     	resutl.put("msg", msg);
         return resutl;
     }
+    
+    @RequestMapping("/exception")
+    public Map<String, String> actionTestError(HttpServletRequest request) {
+    	Map<String, String> resutl = new HashMap<String, String>();
+    	String msg = "finish";
+    	if (GregorianCalendar.getInstance().get(Calendar.SECOND) % 2 == 0) {
+            throw new NullPointerException();
+        }
+    	resutl.put("msg", msg);
+        return resutl;
+    }
 }

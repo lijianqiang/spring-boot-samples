@@ -9,17 +9,15 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-group = 'com.openplan.server'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+//group = 'com.openplan.server'
+//version = '0.0.1-SNAPSHOT'
+//sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
 
-
 dependencies {
-    testCompile('javax.servlet:servlet-api:2.5')
-    testCompile('junit:junit:4.12')
+    compile('javax.servlet:servlet-api:2.5')
 }
 

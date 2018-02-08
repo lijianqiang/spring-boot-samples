@@ -9,9 +9,9 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-group = 'com.openplan.server'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+//group = 'com.openplan.server'
+//version = '0.0.1-SNAPSHOT'
+//sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
@@ -19,5 +19,5 @@ repositories {
 
 
 dependencies {
-    testCompile('junit:junit:4.12')
+    //testCompile('junit:junit:4.12')
 }

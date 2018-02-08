@@ -1,7 +1,8 @@
 buildscript {
-	ext {
-		springBootVersion = '1.5.10.RELEASE'
-	}
+	//ext {
+	//	springBootVersion = rootProject.ext.springBootVersion
+	//}
+	//println "buildscript:" + springBootVersion
 	repositories {
 		mavenCentral()
 	}
@@ -14,26 +15,27 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
-group = 'com.openplan.server'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+//group = 'com.openplan.server'
+//version = '0.0.1-SNAPSHOT'
+//sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
 
-
-ext {
-	springCloudVersion = 'Edgware.SR1'
-}
+//ext {
+//	springCloudVersion = rootProject.ext.springCloudVersion
+//}
 
 dependencies {
-    compile project(':common-tools')
+    compile (project(':common-tools')) {
+    	exclude module: 'servlet-api'
+    }
     compile project(':demo-extra')
 	compile('org.springframework.cloud:spring-cloud-starter-eureka')
-	compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1')
+	compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:${bootMybatisVersion}")
 	compile('org.springframework.boot:spring-boot-configuration-processor')
-	compile('com.alibaba:druid:1.1.7')
+	compile("com.alibaba:druid:${alibabaDruidVersion}")
 	runtime('org.springframework.boot:spring-boot-devtools')
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
