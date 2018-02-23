@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.openplan.server.mybatis.mapper.PlacerRegistryMapper">
+  <resultMap id="BaseResultMap" type="com.openplan.server.entity.model.PlacerRegistry">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="unid" jdbcType="VARCHAR" property="unid" />
+    <result column="placer_id" jdbcType="INTEGER" property="placerId" />
+    <result column="corporation_id" jdbcType="INTEGER" property="corporationId" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="update_at" jdbcType="BIGINT" property="updateAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, unid, placer_id, corporation_id, enable, create_at, update_at
+  </sql>
+  <sql id="Base_Condition_Query_Sql">
+      <if test="unid != null">
+        and unid = #{unid,jdbcType=VARCHAR}
+      </if>
+      <if test="placerId != null">
+        and placer_id = #{placerId,jdbcType=INTEGER}
+      </if>
+      <if test="corporationId != null">
+        and corporation_id = #{corporationId,jdbcType=INTEGER}
+      </if>
+      <if test="enable != null">
+        and enable = #{enable,jdbcType=BIT}
+      </if>
+      <if test="createAt != null">
+        and create_at = #{createAt,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateAt != null">
+        and update_at = #{updateAt,jdbcType=BIGINT}
+      </if>
+  </sql>
+  <sql id="Page_Condition_Query_Sql">
+		<if test="order != null">
+			order by ${order} ${sort}
+		</if>
+		<if test="limit != null">
+			limit #{limit,jdbcType=INTEGER}
+		</if>
+		<if test="offset != null">
+			offset #{offset,jdbcType=INTEGER}
+		</if>
+	</sql>
+  <!-- execute -->
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_placer_registry
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="delete" parameterType="com.openplan.server.entity.model.PlacerRegistry">
+    update tbl_placer_registry
+	set deleted = 1, update_at = #{updateAt,jdbcType=BIGINT}
+	where id = #{id,jdbcType=INTEGER} and deleted = 0
+  </delete>
+  <insert id="insert" parameterType="com.openplan.server.entity.model.PlacerRegistry" useGeneratedKeys="true" keyProperty="id">
+    insert into tbl_placer_registry
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="unid != null">
+        unid,
+      </if>
+      <if test="placerId != null">
+        placer_id,
+      </if>
+      <if test="corporationId != null">
+        corporation_id,
+      </if>
+      <if test="enable != null">
+        enable,
+      </if>
+      <if test="createAt != null">
+        create_at,
+      </if>
+      <if test="updateAt != null">
+        update_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="unid != null">
+        #{unid,jdbcType=VARCHAR},
+      </if>
+      <if test="placerId != null">
+        #{placerId,jdbcType=INTEGER},
+      </if>
+      <if test="corporationId != null">
+        #{corporationId,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=BIT},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.openplan.server.entity.model.PlacerRegistry">
+    update tbl_placer_registry
+    <set>
+      <if test="unid != null">
+        unid = #{unid,jdbcType=VARCHAR},
+      </if>
+      <if test="placerId != null">
+        placer_id = #{placerId,jdbcType=INTEGER},
+      </if>
+      <if test="corporationId != null">
+        corporation_id = #{corporationId,jdbcType=INTEGER},
+      </if>
+      <if test="enable != null">
+        enable = #{enable,jdbcType=BIT},
+      </if>
+      <if test="createAt != null">
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAt != null">
+        update_at = #{updateAt,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="countAll" resultType="java.lang.Integer">
+		select count(1)
+		from tbl_placer_registry
+		where deleted = 0
+	</select>
+	<select id="countByCondition" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+		count(1)
+		from tbl_placer_registry
+		where deleted = 0
+		<include refid="Base_Condition_Query_Sql" />
+	</select>
+	<select id="listByCondition" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from tbl_placer_registry
+		where deleted = 0
+		<include refid="Base_Condition_Query_Sql" />
+		<include refid="Page_Condition_Query_Sql" />
+	</select>
+</mapper>

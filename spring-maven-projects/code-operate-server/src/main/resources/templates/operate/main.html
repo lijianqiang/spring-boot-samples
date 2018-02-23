@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<meta name="viewport" content="width=device-width"></meta>
+<title>主页</title>
+<link rel="stylesheet" href="/common/res/css/mdui.css" />
+<script type="text/javascript">
+function setIframeHeight(iframe) {
+	console.log("setIframeHeight")
+	if (iframe) {
+		var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+		if (iframeWin.document.body) {
+			iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+		}
+		//console.log("title:" + iframeWin.document.title)
+	}
+};
+
+function setSelected(id)
+{
+	console.log("select id:" + id)
+	var old = $(".mdui-list-item-active");
+	if (old != null) {
+		old.removeClass("mdui-list-item-active");
+	}
+	$("#" + id).addClass("mdui-list-item-active");
+}
+</script>
+</head>
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-indigo ">
+<header class="mdui-appbar mdui-appbar-fixed">
+  <div class="mdui-toolbar mdui-color-theme">
+    <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#drawer'}"><i class="mdui-icon material-icons">&#xe5d2;</i></span>
+    <a href="./" class="mdui-typo-headline mdui-hidden-xs">后台管理系统</a>
+          <!-- <a href="" class="mdui-typo-title">抽屉式导航栏</a> -->
+        <div class="mdui-toolbar-spacer"></div>
+    <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-menu="{target: '#header-menu', fixed: true}"><i class="mdui-icon material-icons">&#xe5d4;</i></span>
+    <ul class="mdui-menu" id="header-menu">
+      <li class="mdui-menu-item">
+        <a href="../" class="mdui-ripple">网站首页</a>
+      </li>
+      <li class="mdui-menu-item">
+        <a href="https://github.com/zdhxiong/mdui" target="_blank" class="mdui-ripple">Github</a>
+      </li>
+    </ul>
+  </div>
+</header>
+<div class="mdui-drawer mdui-color-white" id="drawer">
+  <div class="mdui-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px;">
+    <div class="mdui-collapse-item ">
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">&#xe569;</i>
+        <div class="mdui-list-item-content">开始使用</div>
+        <i class="mdui-collapse-item-arrow mdui-icon material-icons">&#xe313;</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list">
+        <span data-target="/placer/index.html" class="mdui-list-item mdui-ripple ">场所管理</span>
+        <span data-target="/qrcoder/index.html" class="mdui-list-item mdui-ripple ">二维码管理</span>
+      </div>
+    </div>
+
+    <div class="mdui-collapse-item ">
+      <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+        <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">&#xe53b;</i>
+        <div class="mdui-list-item-content">系统管理</div>
+        <i class="mdui-collapse-item-arrow mdui-icon material-icons">&#xe313;</i>
+      </div>
+      <div class="mdui-collapse-item-body mdui-list">
+        <span data-target="/scan/index.html" class="mdui-list-item mdui-ripple ">扫描测试</span>
+        <a href="./scan" class="mdui-list-item mdui-ripple ">登录历史</a>
+        <a href="./font" class="mdui-list-item mdui-ripple ">权限管理</a>
+        <a href="./grid" class="mdui-list-item mdui-ripple ">网格布局</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mdui-container-fluid" id="iframe-container">
+  <div class="mdui-row">
+  <div class="mdui-col-xs-12">
+  <iframe src="/placer/index.html" frameborder="0" width="100%"></iframe>
+  </div></div>
+</div>
+
+<script src="/common/res/js/mdui.js"></script>
+<script src="/common/js/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	//菜单单击事件
+	$("#drawer").on("click", ".mdui-list span", function(){
+		console.log("click");
+		$(".mdui-list-item-active").removeClass("mdui-list-item-active");
+		var $this = $(this);
+		$this.addClass("mdui-list-item-active");
+		$("iframe").attr("src", $this.data("target"));
+	});
+	
+	var resize = function(){
+		var windowHeight = document.documentElement.clientHeight || document.documentElement.offsetHeight;
+		console.log(windowHeight-70);
+		$("iframe").height(windowHeight-70);
+	}
+	
+	$(window).resize(resize);
+	resize();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.openplan.server.mybatis.mapper.ZhCityMapper">
+  <resultMap id="BaseResultMap" type="com.openplan.server.entity.model.ZhCity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="city_no" jdbcType="INTEGER" property="cityNo" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="province_no" jdbcType="INTEGER" property="provinceNo" />
+    <result column="first_letter" jdbcType="VARCHAR" property="firstLetter" />
+    <result column="is_hot" jdbcType="BIT" property="isHot" />
+    <result column="state" jdbcType="BIT" property="state" />
+  </resultMap>
+  <resultMap id="ExtraResultMap" type="com.openplan.server.entity.model.ZhCityExtra">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="city_no" jdbcType="INTEGER" property="cityNo" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="province_no" jdbcType="INTEGER" property="provinceNo" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="first_letter" jdbcType="VARCHAR" property="firstLetter" />
+    <result column="is_hot" jdbcType="BIT" property="isHot" />
+    <result column="state" jdbcType="BIT" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, city_no, city_name, province_no, first_letter, is_hot, state
+  </sql>
+  <sql id="Extra_Column_List">
+    m.id as id, m.city_no as city_no, m.city_name as city_name, m.province_no as province_no, 
+    s.province_name as province_name, m.first_letter as first_letter, m.is_hot as is_hot, m.state as state
+  </sql>
+  <sql id="Left_Join_Sql">
+    from tbl_zh_city as m left join tbl_zh_province as s on m.province_no = s.province_no
+  </sql>
+  
+  <select id="getById" parameterType="java.lang.Integer" resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+    where m.id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getByCityNo" parameterType="java.lang.Integer" resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+    where m.city_no = #{cityNo,jdbcType=INTEGER}
+  </select>
+  <select id="getByCityName" parameterType="java.lang.String" resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+    where m.city_name = #{cityNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from tbl_zh_city
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.openplan.server.entity.model.ZhCity" useGeneratedKeys="true"
+		keyProperty="id">
+    insert into tbl_zh_city (city_no, city_name, 
+      province_no, first_letter, is_hot, 
+      state)
+    values (#{cityNo,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
+      #{provinceNo,jdbcType=INTEGER}, #{firstLetter,jdbcType=VARCHAR}, #{isHot,jdbcType=BIT}, 
+      #{state,jdbcType=BIT})
+  </insert>
+  <update id="updateById" parameterType="com.openplan.server.entity.model.ZhCity">
+    update tbl_zh_city
+    <set>
+      <if test="cityNo != null">
+        city_no = #{cityNo,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceNo != null">
+        province_no = #{provinceNo,jdbcType=INTEGER},
+      </if>
+      <if test="firstLetter != null">
+        first_letter = #{firstLetter,jdbcType=VARCHAR},
+      </if>
+      <if test="isHot != null">
+        is_hot = #{isHot,jdbcType=BIT},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listAll"  resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+  </select>
+  <select id="listByProvinceNo" parameterType="java.lang.Integer" resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+    where m.province_no = #{provinceNo,jdbcType=INTEGER}
+  </select>
+</mapper>

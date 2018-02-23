@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&amp;ak=XhYL9AdPupXT4zPjo0vsVqc8"></script>
+<title>二维码设置</title>
+<link rel="stylesheet" href="/common/res/css/mdui.css" />
+</head>
+<body class="mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded">
+	<div class="mdui-container">
+		<div class="mdui-row">
+			<div class="mdui-col-md-12">
+				<h1 class="mdui-text-color-theme">二维码设置</h1>
+			</div>
+			<div class="mdui-col-md-12">
+				<div class="mdui-typo-subheading-opacity">Subheading</div>
+			</div>
+		</div>
+		<div class="mdui-divider mdui-m-b-3 mdui-m-t-1"></div>
+
+            <input class="mdui-hidden" type="text" id="placer-id" th:value="${placer.id}" />
+    		<input class="mdui-hidden" type="text" id="placer-longitude" th:value="${placer.longitude}" />
+    		<input class="mdui-hidden" type="text" id="placer-latitude" th:value="${placer.latitude}" />
+    		<input class="mdui-hidden" type="text" id="placer-name" th:value="${placer.name}" />
+    		<input class="mdui-hidden" type="text" id="placer-address" th:value="${placer.address}" />
+    		<input class="mdui-hidden" type="text" id="placer-ylength" th:value="${placer.ylength}" />
+    		<input class="mdui-hidden" type="text" id="placer-xlength" th:value="${placer.xlength}" />
+    		<input class="mdui-hidden" type="text" id="placer-intro" th:value="${placer.intro}" />
+    		<input class="mdui-hidden" type="text" id="placer-enable" th:value="${placer.enable}" />
+		<div class="mdui-row">
+			<div class="mdui-col-md-12">
+			<div class="mdui-panel " mdui-panel="" id="qrcoder-panel">
+			<div class="mdui-panel-item " id="base-info-item"><!--场所信息  -->
+    			<div class="mdui-panel-item-header">
+      				<div class="mdui-panel-item-title">场所信息</div>
+      				<div class="mdui-panel-item-summary" th:text="${placer.name}"></div>
+      				<i class="mdui-panel-item-arrow mdui-icon material-icons">&#xe313;</i>
+    			</div>
+    			<div class="mdui-panel-item-body">
+					<div class="mdui-row">
+					<div class="mdui-col-md-3">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+  						<label class="mdui-textfield-label">场地标示名称</label>
+  						<input class="mdui-textfield-input" type="text" disabled="disabled" th:value="${placer.name}"/>
+						</div>
+					</div>
+					<div class="mdui-col-md-4">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+  						<label class="mdui-textfield-label">地址</label>
+  						<input class="mdui-textfield-input" type="text" disabled="disabled" th:value="${placer.address}"/>
+						</div>
+					</div>
+					<div class="mdui-col-md-2">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+  						<label class="mdui-textfield-label">场地类型</label>
+  						<input class="mdui-textfield-input" type="text" disabled="disabled" th:value="${placer.placeType}"/>
+						</div>
+					</div>
+					</div>
+					<div class="mdui-row">
+						<div class="mdui-col-md-12">
+							<div class="mdui-textfield mdui-textfield-floating-label">
+	  						<label class="mdui-textfield-label">描述</label>
+	  						<textarea class="mdui-textfield-input " maxlength="250" disabled="disabled" th:text="${placer.intro}"></textarea>
+							</div>
+						</div>
+					</div>
+    			</div>
+  			</div>
+  			<div class="mdui-panel-item mdui-panel-item-open" id="location-info-item"><!-- 地理信息 -->
+    			<div class="mdui-panel-item-header">
+      				<div class="mdui-panel-item-title">二维码管理</div>
+      				<div class="mdui-panel-item-summary">点击此处开关</div>
+      				<i class="mdui-panel-item-arrow mdui-icon material-icons">&#xe313;</i>
+    			</div>
+    			<div class="mdui-panel-item-body">
+    			    <!-- list -->
+					<div class="mdui-row">
+					<div class="mdui-col-md-12">
+						<div class="mdui-p-y-2">列表</div>
+					</div>
+					</div>
+    			    <div class="mdui-row">
+					<div class="mdui-col-md-4">
+						<div class="mdui-textfield-label mdui-p-y-2 mdui-p-x-1">名称</div>
+					</div>
+					<div class="mdui-col-md-2">
+					    <div class="mdui-textfield-label mdui-p-y-2 mdui-p-x-1">经度</div>
+					</div>
+					<div class="mdui-col-md-2">
+					    <div class="mdui-textfield-label mdui-p-y-2 mdui-p-x-1">纬度</div>
+					</div>
+					<div class="mdui-col-md-2">
+					    <div class="mdui-textfield-label mdui-p-y-2 mdui-p-x-1">是否室内</div>
+					</div>
+					<div class="mdui-col-md-2">
+					    <div class="mdui-textfield-label mdui-p-y-2 mdui-p-x-1">是否启用</div>
+					</div>
+					</div>
+    			   <div class="mdui-panel-item" v-for="qrcoder of qrcoders"> <!-- for -->
+					<div class="mdui-row">
+					<div class="mdui-col-md-4">
+						<div class="mdui-p-y-2 mdui-p-x-1">{{qrcoder.name}}</div>
+					</div>
+					<div class="mdui-col-md-2">
+					    <div class="mdui-p-y-2 mdui-p-x-1">{{qrcoder.longitude}}</div>
+					</div>
+					<div class="mdui-col-md-2">
+					    <div class="mdui-p-y-2 mdui-p-x-1">{{qrcoder.latitude}}</div>
+					</div>
+					<div class="mdui-col-md-2">
+					    <div class="mdui-p-y-2 mdui-p-x-1">{{qrcoder.indoor}}</div>
+					</div>
+					<div class="mdui-col-md-2">
+					    <div class="mdui-p-y-2 mdui-p-x-1">{{qrcoder.enable}}</div>
+					</div>
+					</div>
+					</div> <!-- for -->
+					<!-- list -->
+					
+					<div class="mdui-divider mdui-m-y-3"></div>
+					
+    			    <!-- map setting -->
+    			    <div class="mdui-row">
+					<div class="mdui-col-md-6">
+						<div class="mdui-p-y-2">设置</div>
+					</div>
+					</div>
+    				<div class="mdui-row">
+	    				<div class="mdui-col-md-12">
+	    				<div class="mdui-panel-item" id="allmap" style="height:600px;"></div>
+						</div>
+					</div>
+					<div class="mdui-row">
+					 <div class="mdui-col-md-12">
+					 <div class="mdui-float-right mdui-p-t-1">
+					 <span style="color:#afafaf;">单击地图选择位置信息，如有偏差请手动编辑修改</span>
+					 </div>
+					</div>
+					</div>
+					<div class="mdui-row">
+						<div class="mdui-col-md-12">
+					    <div class="mdui-row">
+							<div class="mdui-col-md-4">
+							<div class="mdui-textfield ">
+	  						<label class="mdui-textfield-label">名称</label>
+	  						<input class="mdui-textfield-input" type="text" maxlength="60" v-model="name"/>
+							</div>
+							</div>
+							<div class="mdui-col-md-2">
+							<div class="mdui-textfield ">
+	  						<label class="mdui-textfield-label">经度</label>
+	  						<input class="mdui-textfield-input" type="text" v-model="longitude" />
+							</div>
+							</div>
+					        <div class="mdui-col-md-2">
+							<div class="mdui-textfield ">
+	  						<label class="mdui-textfield-label">纬度</label>
+	  						<input class="mdui-textfield-input" type="text" v-model="latitude" />
+							</div>
+							</div>
+						    <div class="mdui-col-md-2">
+								<div style="position: relative; padding-top: 16px; padding-bottom: 8px;">
+		  						<label class="mdui-textfield-label">是否室内</label>
+		  						<label class="mdui-switch">
+		  						  <input type="checkbox" v-model="indoor"/>
+		  						<i class="mdui-switch-icon"></i>
+								</label>
+								</div>
+							</div>
+							<div class="mdui-col-md-2">
+							    <div style="position: relative; padding-top: 16px; padding-bottom: 8px;">
+							    <button class="mdui-fab mdui-ripple" mdui-tooltip="{content: '撤销'}" v-on:click="resetTempQrcoder"><i class="mdui-icon material-icons">&#xe14c;</i></button>
+							    <button class="mdui-fab mdui-color-theme-accent mdui-ripple" mdui-tooltip="{content: '点击添加'}" v-on:click="submitTempQrcoder"><i class="mdui-icon material-icons">&#xe145;</i></button>
+							    </div>
+							</div>
+					    </div>
+					 	</div>
+					</div>
+					 <!-- map setting -->
+					<div class="mdui-col-md-12 mdui-text-center">
+						<div class="mdui-center mdui-p-t-4">
+							<button id="btn-select-place-close" class="mdui-btn mdui-color-blue-accent mdui-btn-raised" v-on:click="closeLocationInfo"><i class="mdui-icon material-icons">&#xe5d8;</i></button>
+						</div>
+					</div>
+    			</div>
+  			</div>
+			</div>
+			</div>
+		</div>
+
+        <div class="mdui-row">
+		<div class="mdui-col mdui-m-y-4">
+		&nbsp;
+		</div>
+		</div>
+	</div>
+	<script src="/common/res/js/mdui.js"></script>
+	<script src="/common/js/vue.js"></script>
+	<script src="/common/js/axios.min.js"></script>
+	<script src="/operate/placer/qrcoder.js"></script>
+</body>
+</html>

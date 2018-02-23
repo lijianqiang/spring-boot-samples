@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.boot.mybatis.mapper.PlacerMapper">
+  <resultMap id="BaseResultMap" type="com.spring.boot.entity.domain.Placer">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="marker" jdbcType="VARCHAR" property="marker" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+    <result column="place_type" jdbcType="SMALLINT" property="placeType" />
+    <result column="level" jdbcType="SMALLINT" property="level" />
+    <result column="province_no" jdbcType="INTEGER" property="provinceNo" />
+    <result column="city_no" jdbcType="INTEGER" property="cityNo" />
+    <result column="region_no" jdbcType="INTEGER" property="regionNo" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="region_name" jdbcType="VARCHAR" property="regionName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="xlength" jdbcType="INTEGER" property="xlength" />
+    <result column="ylength" jdbcType="INTEGER" property="ylength" />
+    <result column="longitude" jdbcType="VARCHAR" property="longitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="geohash" jdbcType="VARCHAR" property="geohash" />
+    <result column="rented" jdbcType="BIT" property="rented" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="update_at" jdbcType="BIGINT" property="updateAt" />
+    <result column="deleted" jdbcType="BIT" property="deleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, marker, name, intro, place_type, level, province_no, city_no, region_no, province_name, 
+    city_name, region_name, address, xlength, ylength, longitude, latitude, geohash, 
+    rented, enable, create_at, update_at, deleted
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_placer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_placer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.spring.boot.entity.domain.Placer">
+    insert into tbl_placer (id, marker, name, 
+      intro, place_type, level, 
+      province_no, city_no, region_no, 
+      province_name, city_name, region_name, 
+      address, xlength, ylength, 
+      longitude, latitude, geohash, 
+      rented, enable, create_at, 
+      update_at, deleted)
+    values (#{id,jdbcType=INTEGER}, #{marker,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{intro,jdbcType=VARCHAR}, #{placeType,jdbcType=SMALLINT}, #{level,jdbcType=SMALLINT}, 
+      #{provinceNo,jdbcType=INTEGER}, #{cityNo,jdbcType=INTEGER}, #{regionNo,jdbcType=INTEGER}, 
+      #{provinceName,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{regionName,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{xlength,jdbcType=INTEGER}, #{ylength,jdbcType=INTEGER}, 
+      #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, #{geohash,jdbcType=VARCHAR}, 
+      #{rented,jdbcType=BIT}, #{enable,jdbcType=BIT}, #{createAt,jdbcType=TIMESTAMP}, 
+      #{updateAt,jdbcType=BIGINT}, #{deleted,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.spring.boot.entity.domain.Placer">
+    insert into tbl_placer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="marker != null">
+        marker,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+      <if test="placeType != null">
+        place_type,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="provinceNo != null">
+        province_no,
+      </if>
+      <if test="cityNo != null">
+        city_no,
+      </if>
+      <if test="regionNo != null">
+        region_no,
+      </if>
+      <if test="provinceName != null">
+        province_name,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="regionName != null">
+        region_name,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="xlength != null">
+        xlength,
+      </if>
+      <if test="ylength != null">
+        ylength,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="geohash != null">
+        geohash,
+      </if>
+      <if test="rented != null">
+        rented,
+      </if>
+      <if test="enable != null">
+        enable,
+      </if>
+      <if test="createAt != null">
+        create_at,
+      </if>
+      <if test="updateAt != null">
+        update_at,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="marker != null">
+        #{marker,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="placeType != null">
+        #{placeType,jdbcType=SMALLINT},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=SMALLINT},
+      </if>
+      <if test="provinceNo != null">
+        #{provinceNo,jdbcType=INTEGER},
+      </if>
+      <if test="cityNo != null">
+        #{cityNo,jdbcType=INTEGER},
+      </if>
+      <if test="regionNo != null">
+        #{regionNo,jdbcType=INTEGER},
+      </if>
+      <if test="provinceName != null">
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="regionName != null">
+        #{regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="xlength != null">
+        #{xlength,jdbcType=INTEGER},
+      </if>
+      <if test="ylength != null">
+        #{ylength,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="geohash != null">
+        #{geohash,jdbcType=VARCHAR},
+      </if>
+      <if test="rented != null">
+        #{rented,jdbcType=BIT},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=BIT},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt,jdbcType=BIGINT},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.spring.boot.entity.domain.Placer">
+    update tbl_placer
+    <set>
+      <if test="marker != null">
+        marker = #{marker,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="placeType != null">
+        place_type = #{placeType,jdbcType=SMALLINT},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=SMALLINT},
+      </if>
+      <if test="provinceNo != null">
+        province_no = #{provinceNo,jdbcType=INTEGER},
+      </if>
+      <if test="cityNo != null">
+        city_no = #{cityNo,jdbcType=INTEGER},
+      </if>
+      <if test="regionNo != null">
+        region_no = #{regionNo,jdbcType=INTEGER},
+      </if>
+      <if test="provinceName != null">
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="regionName != null">
+        region_name = #{regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="xlength != null">
+        xlength = #{xlength,jdbcType=INTEGER},
+      </if>
+      <if test="ylength != null">
+        ylength = #{ylength,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="geohash != null">
+        geohash = #{geohash,jdbcType=VARCHAR},
+      </if>
+      <if test="rented != null">
+        rented = #{rented,jdbcType=BIT},
+      </if>
+      <if test="enable != null">
+        enable = #{enable,jdbcType=BIT},
+      </if>
+      <if test="createAt != null">
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAt != null">
+        update_at = #{updateAt,jdbcType=BIGINT},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.spring.boot.entity.domain.Placer">
+    update tbl_placer
+    set marker = #{marker,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      place_type = #{placeType,jdbcType=SMALLINT},
+      level = #{level,jdbcType=SMALLINT},
+      province_no = #{provinceNo,jdbcType=INTEGER},
+      city_no = #{cityNo,jdbcType=INTEGER},
+      region_no = #{regionNo,jdbcType=INTEGER},
+      province_name = #{provinceName,jdbcType=VARCHAR},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      region_name = #{regionName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      xlength = #{xlength,jdbcType=INTEGER},
+      ylength = #{ylength,jdbcType=INTEGER},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      geohash = #{geohash,jdbcType=VARCHAR},
+      rented = #{rented,jdbcType=BIT},
+      enable = #{enable,jdbcType=BIT},
+      create_at = #{createAt,jdbcType=TIMESTAMP},
+      update_at = #{updateAt,jdbcType=BIGINT},
+      deleted = #{deleted,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,12 @@
+.mvn
+.settings
+.idea
+target
+/**/.idea
+*.iml
+*.classpath
+*.project
+*.log
+*.lck
+*.epoch
+*.factorypath

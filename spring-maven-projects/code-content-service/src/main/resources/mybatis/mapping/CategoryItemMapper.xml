@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.openplan.server.mybatis.mapper.CategoryItemMapper">
+  <resultMap id="BaseResultMap" type="com.openplan.server.entity.model.CategoryItem">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="update_at" jdbcType="BIGINT" property="updateAt" />
+  </resultMap>
+  <resultMap id="ExtraResultMap" type="com.openplan.server.entity.extra.CategoryItemExtra">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="parent_name" jdbcType="VARCHAR" property="parentName" />
+    <result column="consumer_type" jdbcType="SMALLINT" property="consumerType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
+    <result column="create_at" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="update_at" jdbcType="BIGINT" property="updateAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, parent_id, name, intro, create_at, update_at
+  </sql>
+  <sql id="Extra_Column_List">
+    m.id as id, m.parent_id as parent_id, s.name as parent_name, s.consumer_type as consumer_type, m.name as name, m.intro as intro, m.create_at as create_at, m.update_at as update_at
+  </sql>
+  <sql id="Left_Join_Sql">
+    from tbl_category_item as m left join tbl_consumer_category as s on m.parent_id = s.id
+  </sql>
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_category_item
+    where id = #{id,jdbcType=INTEGER}  and deleted = 0
+  </select>
+  <delete id="delete" parameterType="com.openplan.server.entity.model.CategoryItem">
+    update tbl_category_item
+		set deleted = 1, update_at = #{updateAt,jdbcType=BIGINT}
+		where id = #{id,jdbcType=INTEGER} and deleted = 0
+  </delete>
+  <insert id="insert" parameterType="com.openplan.server.entity.model.CategoryItem" useGeneratedKeys="true" keyProperty="id">
+    insert into tbl_category_item
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="intro != null">
+        intro,
+      </if>
+      <if test="createAt != null">
+        create_at,
+      </if>
+      <if test="updateAt != null">
+        update_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="parentId != null">
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAt != null">
+        #{updateAt,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.openplan.server.entity.model.CategoryItem">
+    update tbl_category_item
+    <set>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        create_at = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateAt != null">
+        update_at = #{updateAt,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER} and deleted = 0
+  </update>
+  <select id="listAll"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_category_item
+    where deleted = 0
+  </select>
+  <select id="listExtraAll"  resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+    where m.deleted = 0
+  </select>
+  <select id="listByParentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_category_item
+    where deleted = 0 and parent_id = #{parentId,jdbcType=INTEGER}
+  </select>
+</mapper>

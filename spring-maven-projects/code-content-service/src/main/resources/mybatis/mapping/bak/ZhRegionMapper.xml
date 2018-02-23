@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.openplan.server.mybatis.mapper.ZhRegionMapper">
+  <resultMap id="BaseResultMap" type="com.openplan.server.entity.model.ZhRegion">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="region_no" jdbcType="INTEGER" property="regionNo" />
+    <result column="region_name" jdbcType="VARCHAR" property="regionName" />
+    <result column="city_no" jdbcType="INTEGER" property="cityNo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, region_no, region_name, city_no
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from "tbl_zh_region"
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from "tbl_zh_region"
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.openplan.server.entity.model.ZhRegion">
+    insert into "tbl_zh_region" (id, region_no, region_name, 
+      city_no)
+    values (#{id,jdbcType=INTEGER}, #{regionNo,jdbcType=INTEGER}, #{regionName,jdbcType=VARCHAR}, 
+      #{cityNo,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.openplan.server.entity.model.ZhRegion">
+    insert into "tbl_zh_region"
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="regionNo != null">
+        region_no,
+      </if>
+      <if test="regionName != null">
+        region_name,
+      </if>
+      <if test="cityNo != null">
+        city_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="regionNo != null">
+        #{regionNo,jdbcType=INTEGER},
+      </if>
+      <if test="regionName != null">
+        #{regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityNo != null">
+        #{cityNo,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.openplan.server.entity.model.ZhRegion">
+    update "tbl_zh_region"
+    <set>
+      <if test="regionNo != null">
+        region_no = #{regionNo,jdbcType=INTEGER},
+      </if>
+      <if test="regionName != null">
+        region_name = #{regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityNo != null">
+        city_no = #{cityNo,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.openplan.server.entity.model.ZhRegion">
+    update "tbl_zh_region"
+    set region_no = #{regionNo,jdbcType=INTEGER},
+      region_name = #{regionName,jdbcType=VARCHAR},
+      city_no = #{cityNo,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

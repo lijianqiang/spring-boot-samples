@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<meta name="viewport" content="width=device-width"></meta>
+<title>场所列表</title>
+<link rel="stylesheet" href="/common/res/css/mdui.css" />
+</head>
+<body class="mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded">
+	<div class="mdui-container">
+		<div class="mdui-row">
+			<div class="mdui-col-xs-12">
+				<h1 class="mdui-text-color-theme">场所列表</h1>
+			</div>
+			<div class="mdui-col-xs-12">
+				<div class="mdui-typo-subheading-opacity">Subheading</div>
+			</div>
+		</div>
+		<div class="mdui-divider mdui-m-b-3 mdui-m-t-1"></div>
+		<div class="mdui-row">
+			<div class="mdui-col-xs-12">
+			<div class="mdui-panel " mdui-panel="">
+  			<div class="mdui-panel-item">
+    			<div class="mdui-panel-item-header">
+      				<div class="mdui-panel-item-title">查询</div>
+      				<i class="mdui-panel-item-arrow mdui-icon material-icons">&#xe313;</i>
+    			</div>
+    			<div class="mdui-panel-item-body" id="query-form">
+    				<div class="mdui-row-xs-4 ">
+						<div class="mdui-col">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">省码</label> 
+							<input class="mdui-textfield-input" type="text" v-model="provinceNo"/>
+						</div>
+						</div>
+						<div class="mdui-col">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">市码</label> 
+							<input class="mdui-textfield-input" type="text" v-model="cityNo"/>
+						</div>
+						</div>
+						<div class="mdui-col">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">区县码</label> 
+							<input class="mdui-textfield-input" type="text" v-model="regionNo"/>
+						</div>
+						</div>
+						<div class="mdui-col">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">类型</label> 
+							<input class="mdui-textfield-input" type="text" v-model="placeType"/>
+						</div>
+						</div>
+					</div>
+					<div class="mdui-row">
+						<div class="mdui-col-xs-4">
+					    <div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">名称</label> 
+							<input class="mdui-textfield-input" type="text" v-model="name"/>
+						</div>
+						</div>
+					</div>
+					<div class="mdui-row">
+					<div class="mdui-col-xs-12">
+						<div class="mdui-float-right mdui-p-a-1">
+							<button id="btn-search" class="mdui-btn mdui-color-theme-accent mdui-ripple" v-on:click="search" >查询</button>
+							<button id="btn-reset" class="mdui-btn mdui-color-blue-accent mdui-ripple" v-on:click="reset" >重置</button>
+						</div>
+					</div>
+					</div>
+    			</div>
+  			</div>
+			</div>
+			</div>
+		</div>
+		<div class="mdui-row" id="menu-list">
+	    	<div class="mdui-col-xs-12">
+    			<button class="mdui-fab mdui-color-theme-accent mdui-ripple mdui-fab-fixed" onclick="window.location.href='/placer/create.html'" ><i class="mdui-icon material-icons">&#xe145;</i></button>
+  			</div>
+	    </div>
+	    <div class="mdui-divider mdui-m-y-3"></div>
+		<div class="mdui-row">
+			<div class="mdui-col-xs-12">
+			    <!-- 
+				<div class="mdui-table-fluid">
+					<table class="mdui-table mdui-table-hoverable " id="placer-table">
+						<thead>
+							<tr>
+								<th >id</th>
+								<th >名称</th>
+								<th >省</th>
+								<th >市</th>
+								<th >区/县</th>
+								<th >地址</th>
+								<th >类型</th>
+								<th >激活</th>
+								<th >操作</th>
+							</tr>
+						</thead>
+						<tbody v-for="placer in placers">
+							<tr>
+								<td>{{ placer.id }}</td>
+								<td>{{ placer.name }}</td>
+								<td>{{ placer.provinceName }} - {{ placer.provinceNo }}</td>
+								<td>{{ placer.cityName }} - {{ placer.cityNo }}</td>
+								<td>{{ placer.regionName }} - {{ placer.regionNo }}</td>
+								<td>{{ placer.address }}</td>
+								<td>{{ placer.placeType }}</td>
+								<td>{{ placer.enable }}</td>
+								<td>
+								<span class="mdui-ripple mdui-ripple-blue" v-on:click="viewItem(placer.id)">查看</span>&nbsp;&nbsp;
+								    <span class="mdui-ripple mdui-ripple-blue" v-on:click="updateItem(placer.id)">编辑</span>&nbsp;&nbsp;
+								    <span class="mdui-ripple mdui-ripple-blue" v-on:click="deleteItemConfirm(placer.id, placer.name)">删除</span>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>-->
+				
+				<div class="mdui-panel mdui-panel-popout" mdui-panel="{accordion: true}" id="placer-table">
+				<div class="mdui-panel-item" v-for="placer of placers">
+				    <div class="mdui-panel-item-header">
+				      <div class="mdui-panel-item-title mdui-text-color-theme">{{ placer.name }}</div>
+				      <div class="mdui-panel-item-summary ">概要：{{ placer.provinceName }}{{ placer.cityName }}{{ placer.regionName }}, {{ placer.address }}， 是否激活：{{placer.enable}}</div>
+				      <i class="mdui-panel-item-arrow mdui-icon material-icons">&#xe313;</i>
+				    </div>
+				    <div class="mdui-panel-item-body">
+				      <div class="mdui-row-xs-4">
+				      <div class="mdui-col">
+  						  <label class="mdui-typo-body-1-opacity">省-市-区（码）: {{ placer.provinceNo }}-{{ placer.cityNo }}-{{ placer.regionNo }}</label>
+				      </div>
+				      <div class="mdui-col">
+  						  <label class="mdui-typo-body-1-opacity">经度: {{placer.longitude}}, 纬度:{{placer.latitude}}</label>
+				      </div>
+				      <div class="mdui-col">
+  						  <label class="mdui-typo-body-1-opacity">东西宽: {{ placer.xlength }}m, 南北宽:{{ placer.ylength }}m</label>
+				      </div>
+				      <div class="mdui-col">
+  						  <label class="mdui-typo-body-1-opacity">类型: {{ placer.placeType }}</label>
+				      </div>
+				      </div>
+				      <div class="mdui-panel-item-actions">
+					      <div class="mdui-row">
+					      <div class="mdui-col-12">
+					        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-red-accent" v-on:click="deleteItemConfirm(placer.id, placer.name)">删除</button>
+					        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-pink-accent" >启用</button>
+					        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-teal" v-on:click="updateItem(placer.id)">编辑</button>
+					        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-deep-purple" v-on:click="qrcoderSetting(placer.id)">二维码设置</button>
+					        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-indigo" v-on:click="menuSetting(placer.id)">功能设置</button>
+					        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-purple-accent" v-on:click="viewItem(placer.id)">详情查看</button>
+					      </div>
+					      </div>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+
+			</div>
+		</div>
+        <div class="mdui-row" id="pagination">
+            <div class="mdui-col-xs-12 ">
+            <div class="mdui-float-left mdui-p-t-2 mdui-p-x-1 mdui-p-b-4">总{{ total }}条</div>
+			<div class="mdui-float-right mdui-p-t-2 mdui-p-x-1 mdui-p-b-4">
+  				<span class="mdui-ripple" v-on:click="previous">上一页</span> 
+  			    <span class="mdui-ripple" v-on:click="next">下一页</span>
+			</div>
+            </div>
+	    </div>
+	    <div class="mdui-m-y-5"></div>
+	</div>
+	<script src="/common/res/js/mdui.js"></script>
+	<script src="/common/js/vue.js"></script>
+	<script src="/common/js/axios.min.js"></script>
+	<script src="/operate/placer/index.js"></script>
+</body>
+</html>

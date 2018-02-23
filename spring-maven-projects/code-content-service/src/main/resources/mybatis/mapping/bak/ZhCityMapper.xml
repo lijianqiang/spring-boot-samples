@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.openplan.server.mybatis.mapper.ZhCityMapper">
+  <resultMap id="BaseResultMap" type="com.openplan.server.entity.model.ZhCity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="city_no" jdbcType="INTEGER" property="cityNo" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="province_no" jdbcType="INTEGER" property="provinceNo" />
+    <result column="first_letter" jdbcType="VARCHAR" property="firstLetter" />
+    <result column="is_hot" jdbcType="BIT" property="isHot" />
+    <result column="state" jdbcType="BIT" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, city_no, city_name, province_no, first_letter, is_hot, state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_zh_city
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_zh_city
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.openplan.server.entity.model.ZhCity">
+    insert into tbl_zh_city (id, city_no, city_name, 
+      province_no, first_letter, is_hot, 
+      state)
+    values (#{id,jdbcType=INTEGER}, #{cityNo,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
+      #{provinceNo,jdbcType=INTEGER}, #{firstLetter,jdbcType=VARCHAR}, #{isHot,jdbcType=BIT}, 
+      #{state,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.openplan.server.entity.model.ZhCity">
+    insert into tbl_zh_city
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cityNo != null">
+        city_no,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="provinceNo != null">
+        province_no,
+      </if>
+      <if test="firstLetter != null">
+        first_letter,
+      </if>
+      <if test="isHot != null">
+        is_hot,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cityNo != null">
+        #{cityNo,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceNo != null">
+        #{provinceNo,jdbcType=INTEGER},
+      </if>
+      <if test="firstLetter != null">
+        #{firstLetter,jdbcType=VARCHAR},
+      </if>
+      <if test="isHot != null">
+        #{isHot,jdbcType=BIT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.openplan.server.entity.model.ZhCity">
+    update tbl_zh_city
+    <set>
+      <if test="cityNo != null">
+        city_no = #{cityNo,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceNo != null">
+        province_no = #{provinceNo,jdbcType=INTEGER},
+      </if>
+      <if test="firstLetter != null">
+        first_letter = #{firstLetter,jdbcType=VARCHAR},
+      </if>
+      <if test="isHot != null">
+        is_hot = #{isHot,jdbcType=BIT},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.openplan.server.entity.model.ZhCity">
+    update tbl_zh_city
+    set city_no = #{cityNo,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      province_no = #{provinceNo,jdbcType=INTEGER},
+      first_letter = #{firstLetter,jdbcType=VARCHAR},
+      is_hot = #{isHot,jdbcType=BIT},
+      state = #{state,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

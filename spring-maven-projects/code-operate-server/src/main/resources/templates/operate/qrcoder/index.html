@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<meta name="viewport" content="width=device-width"></meta>
+<title>二维码列表</title>
+<link rel="stylesheet" href="/common/res/css/mdui.css" />
+</head>
+<body class="mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded">
+	<div class="mdui-container">
+		<div class="mdui-row">
+			<div class="mdui-col-xs-12">
+				<h1 class="mdui-text-color-theme">二维码列表</h1>
+			</div>
+			<div class="mdui-col-xs-12">
+				<div class="mdui-typo-subheading-opacity">Subheading</div>
+			</div>
+		</div>
+		<div class="mdui-divider mdui-m-b-3 mdui-m-t-1"></div>
+		<div class="mdui-row">
+			<div class="mdui-col-xs-12">
+			<div class="mdui-panel " mdui-panel="">
+  			<div class="mdui-panel-item">
+    			<div class="mdui-panel-item-header">
+      				<div class="mdui-panel-item-title">查询</div>
+      				<i class="mdui-panel-item-arrow mdui-icon material-icons">&#xe313;</i>
+    			</div>
+    			<div class="mdui-panel-item-body" id="query-form">
+    				<div class="mdui-row-xs-4">
+						<div class="mdui-col">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">省码</label> 
+							<input class="mdui-textfield-input" type="text" v-model="provinceNo"/>
+						</div>
+						</div>
+						<div class="mdui-col">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">市码</label> 
+							<input class="mdui-textfield-input" type="text" v-model="cityNo"/>
+						</div>
+						</div>
+						<div class="mdui-col">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">区县码</label> 
+							<input class="mdui-textfield-input" type="text" v-model="regionNo"/>
+						</div>
+						</div>
+						<div class="mdui-col">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">PlaceId</label> 
+							<input class="mdui-textfield-input" type="text" v-model="placeId"/>
+						</div>
+						</div>
+					</div>
+					<div class="mdui-row">
+						<div class="mdui-col-xs-4">
+					    <div class="mdui-textfield mdui-textfield-floating-label">
+							<label class="mdui-textfield-label">名称</label> 
+							<input class="mdui-textfield-input" type="text" v-model="name"/>
+						</div>
+						</div>
+					</div>
+					<div class="mdui-row">
+					<div class="mdui-col-xs-12">
+						<div class="mdui-float-right mdui-p-a-1">
+							<button id="btn-search" class="mdui-btn mdui-color-theme-accent mdui-ripple" v-on:click="search" >查询</button>
+							<button id="btn-reset" class="mdui-btn mdui-color-blue-accent mdui-ripple" v-on:click="reset" >重置</button>
+						</div>
+					</div>
+					</div>
+    			</div>
+  			</div>
+			</div>
+			</div>
+		</div>
+		<div class="mdui-divider mdui-m-y-3"></div>
+		<div class="mdui-row">
+			<div class="mdui-col-xs-12">
+			    <!-- 
+				<div class="mdui-table-fluid">
+					<table class="mdui-table mdui-table-hoverable " id="qrcoder-table">
+						<thead>
+							<tr>
+								<th >id</th>
+								<th >UNID</th>
+								<th >名称</th>
+								<th >PlacerId</th>
+								<th >省-市-区</th>
+								<th >是否室内</th>
+								<th >是否启用</th>
+								<th >操作</th>
+							</tr>
+						</thead>
+						<tbody v-for="qrcoder in qrcoders">
+							<tr>
+								<td>{{ qrcoder.id }}</td>
+								<td>{{ qrcoder.unid }}</td>
+								<td>{{ qrcoder.name }}</td>
+								<td>{{ qrcoder.placerId }}</td>
+								<td>{{ qrcoder.provinceNo }}-{{ qrcoder.cityNo }}-{{ qrcoder.regionNo }}</td>
+								<td>{{ qrcoder.indoor }}</td>
+								<td>{{ qrcoder.enable }}</td>
+								<td><span class="mdui-ripple mdui-ripple-blue" v-on:click="viewItem(qrcoder.id)">查看</span>&nbsp;&nbsp;
+								    <span class="mdui-ripple mdui-ripple-blue" v-on:click="updateItem(qrcoder.id)">编辑</span>&nbsp;&nbsp;
+								    <span class="mdui-ripple mdui-ripple-blue" v-on:click="deleteItem(qrcoder.id)">删除</span></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+ 				-->
+ 				<div class="mdui-panel mdui-panel-popout" mdui-panel="{accordion: true}" id="qrcoder-table">
+				<div class="mdui-panel-item" v-for="qrcoder of qrcoders">
+				    <div class="mdui-panel-item-header">
+				      <div class="mdui-panel-item-title mdui-text-color-theme">{{ qrcoder.name }}</div>
+				      <div class="mdui-panel-item-summary ">是否室内：{{qrcoder.indoor}}, 是否启用：{{qrcoder.enable}}</div>
+				      <i class="mdui-panel-item-arrow mdui-icon material-icons">&#xe313;</i>
+				    </div>
+				    <div class="mdui-panel-item-body">
+				      <div class="mdui-row">
+				      <div class="mdui-col-xs-3">
+  						  <label class="mdui-typo-body-1-opacity">省-市-区（码）:{{ qrcoder.provinceNo }}-{{ qrcoder.cityNo }}-{{ qrcoder.regionNo }}</label>
+				      </div>
+				      <div class="mdui-col-xs-3">
+  						  <label class="mdui-typo-body-1-opacity">经度:{{qrcoder.longitude}}, 纬度:{{qrcoder.latitude}}</label>
+				      </div>
+				      <div class="mdui-col-xs-1">
+  						  <label class="mdui-typo-body-1-opacity">所属场所:{{ qrcoder.placerId }}</label>
+				      </div>
+				      <div class="mdui-col-xs-5">
+  						  <label class="mdui-typo-body-1-opacity">唯一识别码:{{ qrcoder.unid }}</label>
+				      </div>
+				      </div>
+				      <div class="mdui-panel-item-actions">
+					      <div class="mdui-row">
+					      <div class="mdui-col-xs-12">
+					        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-red-accent" v-on:click="deleteItemConfirm(qrcoder.id, qrcoder.name)">删除</button>
+					        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-pink-accent" >启用</button>
+					        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-deep-purple" v-on:click="qrcoderSetting(placer.id)">二维码图片</button>
+					      </div>
+					      </div>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+		</div>
+        <div class="mdui-row" id="pagination">
+            <div class="mdui-col-xs-12 ">
+            <div class="mdui-float-left mdui-p-t-2 mdui-p-x-1 mdui-p-b-4">总{{ total }}条</div>
+			<div class="mdui-float-right mdui-p-t-2 mdui-p-x-1 mdui-p-b-4">
+  				<span class="mdui-ripple" v-on:click="previous">上一页</span> 
+  			    <span class="mdui-ripple" v-on:click="next">下一页</span>
+			</div>
+            </div>
+	    </div>
+	</div>
+	<script src="/common/res/js/mdui.js"></script>
+	<script src="/common/js/vue.js"></script>
+	<script src="/common/js/axios.min.js"></script>
+	<script src="/operate/qrcoder/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"></meta>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&amp;ak=XhYL9AdPupXT4zPjo0vsVqc8"></script>
+<title>创建二维码</title>
+<link rel="stylesheet" href="/common/res/css/mdui.css" />
+</head>
+<body class="mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded">
+	<div class="mdui-container">
+		<div class="mdui-row">
+			<div class="mdui-col-xs-12">
+				<h1 class="mdui-text-color-theme">创建二维码</h1>
+			</div>
+			<div class="mdui-col-xs-12">
+				<div class="mdui-typo-subheading-opacity">Subheading</div>
+			</div>
+		</div>
+		<div class="mdui-divider mdui-m-b-3 mdui-m-t-1"></div>
+
+		<div class="mdui-row">
+			<div class="mdui-col-xs-12">
+			<div class="mdui-panel " mdui-panel="" id="qrcoder-panel">
+			<div class="mdui-panel-item mdui-panel-item-open" id="qrcoder-info-item"><!--基本信息  -->
+    			<div class="mdui-panel-item-header">
+      				<div class="mdui-panel-item-title">基本信息</div>
+      				<div class="mdui-panel-item-summary">点击此处开关</div>
+      				<i class="mdui-panel-item-arrow mdui-icon material-icons">&#xe313;</i>
+    			</div>
+    			<input class="mdui-hidden" type="text" id="placer-id" th:value="${placer.id}" />
+    			<input class="mdui-hidden" type="text" id="placer-longitude" th:value="${placer.longitude}" />
+    			<input class="mdui-hidden" type="text" id="placer-latitude" th:value="${placer.latitude}" />
+    			<input class="mdui-hidden" type="text" id="placer-name" th:value="${placer.name}" />
+    			<div class="mdui-panel-item-body">
+					<div class="mdui-row">
+					<div class="mdui-col-xs-12">
+						<div class="mdui-textfield mdui-textfield-floating-label">
+  						<label class="mdui-textfield-label">名称</label>
+  						<input class="mdui-textfield-input" maxlength="60" type="text" v-model="name"/>
+						</div>
+					</div>
+					<div class="mdui-col-xs-12">
+					    <span style="color:#afafaf;font-size:15px;">是否室内</span>
+					</div>
+					<div class="mdui-col-xs-12">
+						<label class="mdui-switch">
+  						<input type="checkbox" v-model="indoor"/>
+  						<i class="mdui-switch-icon"></i>
+						</label>
+					</div>
+					<div class="mdui-col-xs-12">
+					<div class="mdui-divider mdui-m-b-3 mdui-m-t-1"></div>
+					</div>
+					</div>
+    				<div class="mdui-row">
+    				<div id="allmap" style="height:500px;"></div>
+					</div>
+					<div class="mdui-row">
+					 <div class="mdui-col-xs-12">
+					 <div class="mdui-float-right mdui-p-t-1">
+					 <span style="color:#afafaf;">单击地图选择位置信息，如有偏差请手动编辑修改</span>
+					 </div>
+					</div>
+					</div>
+					<div class="mdui-row">
+						<div class="mdui-col-xs-12">
+					    <div class="mdui-row-xs-2">
+					        <div class="mdui-col">
+							<div class="mdui-textfield ">
+	  						<label class="mdui-textfield-label">经度</label>
+	  						<input class="mdui-textfield-input" type="text" v-model="longitude" />
+							</div>
+							</div>
+							<div class="mdui-col">
+							<div class="mdui-textfield ">
+	  						<label class="mdui-textfield-label">纬度</label>
+	  						<input class="mdui-textfield-input" type="text" v-model="latitude" />
+							</div>
+							</div>
+					    </div>
+					 	</div>
+					 	<div class="mdui-col-xs-12 mdui-text-center">
+						<div class="mdui-center mdui-p-t-4">
+							<button id="btn-select-place-close" class="mdui-btn mdui-color-blue-accent mdui-ripple" v-on:click="closeQrcoderInfo">收起</button>
+						</div>
+						</div>
+					</div>
+    			</div>
+  			</div>
+  			
+			</div>
+			</div>
+		</div>
+
+        <div class="mdui-row">
+		<div class="mdui-col mdui-m-y-3">
+		&nbsp;
+		</div>
+		</div>
+		<div class="mdui-row">
+		<div class="mdui-col-xs-6">
+		<button class="mdui-btn mdui-btn-block mdui-color-blue-accent mdui-ripple mdui-btn-raised"  mdui-tooltip="{content: '返回前页'}" onclick="onClickBack()"><i class="mdui-icon material-icons">&#xe5c4;</i></button>
+		</div>
+		<div class="mdui-col-xs-6">
+		<button class="mdui-btn mdui-btn-block mdui-color-theme-accent mdui-ripple mdui-btn-raised" mdui-tooltip="{content: '点击提交'}" onclick="onClickSubmit()"><i class="mdui-icon material-icons">&#xe145;</i></button>
+		</div>
+		</div>
+		<div class="mdui-row">
+				<div class="mdui-dialog" id="processing-dialog">
+					<div class="mdui-dialog-title">提交中</div>
+  					<div class="mdui-dialog-content">...</div>
+				</div>
+		</div>
+        <div class="mdui-row">
+		<div class="mdui-col-xs-12 mdui-m-y-3">
+		&nbsp;
+		</div>
+		</div>
+	</div>
+	<script src="/common/res/js/mdui.js"></script>
+	<script src="/common/js/vue.js"></script>
+	<script src="/common/js/axios.min.js"></script>
+	<script src="/operate/qrcoder/create.js"></script>
+</body>
+</html>

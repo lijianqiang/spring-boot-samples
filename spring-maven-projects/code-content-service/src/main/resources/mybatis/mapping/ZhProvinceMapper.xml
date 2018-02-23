@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.openplan.server.mybatis.mapper.ZhProvinceMapper">
+  <resultMap id="BaseResultMap" type="com.openplan.server.entity.model.ZhProvince">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="province_no" jdbcType="INTEGER" property="provinceNo" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, province_no, province_name
+  </sql>
+  <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_zh_province
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getByProvinceNo" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_zh_province
+    where province_no = #{provinceNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from tbl_zh_province
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.openplan.server.entity.model.ZhProvince" useGeneratedKeys="true"
+		keyProperty="id">
+    insert into tbl_zh_province (province_no, province_name )
+    values (#{provinceNo,jdbcType=INTEGER}, #{provinceName,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateById" parameterType="com.openplan.server.entity.model.ZhProvince">
+    update tbl_zh_province
+    set province_no = #{provinceNo,jdbcType=INTEGER},
+      province_name = #{provinceName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listAll"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_zh_province
+  </select>
+</mapper>

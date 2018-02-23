@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.openplan.server.mybatis.mapper.ZhRegionMapper">
+  <resultMap id="BaseResultMap" type="com.openplan.server.entity.model.ZhRegion">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="region_no" jdbcType="INTEGER" property="regionNo" />
+    <result column="region_name" jdbcType="VARCHAR" property="regionName" />
+    <result column="city_no" jdbcType="INTEGER" property="cityNo" />
+  </resultMap>
+  <resultMap id="ExtraResultMap" type="com.openplan.server.entity.model.ZhRegionExtra">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="region_no" jdbcType="INTEGER" property="regionNo" />
+    <result column="region_name" jdbcType="VARCHAR" property="regionName" />
+    <result column="city_no" jdbcType="INTEGER" property="cityNo" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="province_no" jdbcType="INTEGER" property="provinceNo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, region_no, region_name, city_no
+  </sql>
+  <sql id="Extra_Column_List">
+    m.id as id, m.region_no as region_no, m.region_name as region_name, m.city_no as city_no, s.city_name as city_name, s.province_no as province_no
+  </sql>
+  <sql id="Left_Join_Sql">
+    from tbl_zh_region as m left join tbl_zh_city as s on m.city_no = s.city_no
+  </sql>
+  <select id="getById" parameterType="java.lang.Integer" resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+    where m.id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getByRegionNo" parameterType="java.lang.Integer" resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+    where m.region_no = #{regionNo,jdbcType=INTEGER}
+  </select>
+  <select id="getByCityAndRegionName" resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+    where m.region_name = #{regionName,jdbcType=VARCHAR} and m.city_no = (select city_no from tbl_zh_city where city_name = #{cityName,jdbcType=VARCHAR})
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from tbl_zh_region
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.openplan.server.entity.model.ZhRegion" useGeneratedKeys="true"
+		keyProperty="id">
+    insert into tbl_zh_region (region_no, region_name, city_no)
+    values (#{regionNo,jdbcType=INTEGER}, #{regionName,jdbcType=VARCHAR}, 
+      #{cityNo,jdbcType=INTEGER})
+  </insert>
+  <update id="updateById" parameterType="com.openplan.server.entity.model.ZhRegion">
+    update tbl_zh_region
+    <set>
+      <if test="regionNo != null">
+        region_no = #{regionNo,jdbcType=INTEGER},
+      </if>
+      <if test="regionName != null">
+        region_name = #{regionName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityNo != null">
+        city_no = #{cityNo,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listAll" resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+  </select>
+  <select id="listByRegionName" parameterType="java.lang.String" resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+    where m.region_name = #{regionName,jdbcType=VARCHAR}
+  </select>
+  <select id="listByCityNo" parameterType="java.lang.Integer" resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+    where m.city_no = #{cityNo,jdbcType=INTEGER}
+  </select>
+  <select id="listByProvinceNo" parameterType="java.lang.Integer" resultMap="ExtraResultMap">
+    select 
+    <include refid="Extra_Column_List" />
+    <include refid="Left_Join_Sql" />
+    where m.city_no in (select city_no from tbl_zh_city where province_no = #{provinceNo,jdbcType=INTEGER})
+  </select>
+</mapper>
