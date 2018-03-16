@@ -5,6 +5,9 @@
 
 rootProject.name = 'spring-gradle-projects'
 
+include 'abstract-protocol'
 include 'service-server-demo'
+include 'service-consumer-demo'
 include 'demo-extra'
-include 'common-tools'
+include 'server-core'
+include 'open-display-server'

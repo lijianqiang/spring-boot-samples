@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.openplan.server.core.http.helper.ListQueryHelper;
 import com.openplan.server.domain.model.Placeholder;
 import com.openplan.server.enums.PlaceholderKey;
-import com.openplan.server.query.ListQueryHelper;
 import com.openplan.server.service.PlaceholderService;
+import com.openplan.server.vo.PlaceholderVO;
 
 
 @Controller
@@ -38,7 +39,7 @@ public class PlaceholderController {
 
     @RequestMapping(method = { RequestMethod.GET }, value = "", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public List<Placeholder> actionList(HttpServletRequest request) {
+    public List<Placeholder> listPlaceholder(HttpServletRequest request) {
         LOG.debug("hello world");
         Map<String, Object> params = buildQueryParam(request);
         List<Placeholder> result = placeholderService.listByCondition(params);
@@ -69,10 +70,16 @@ public class PlaceholderController {
 
     @RequestMapping(method = { RequestMethod.GET }, value = "/{id}", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public Placeholder actionGetById(HttpServletRequest request, @PathVariable Integer id) {
-        Placeholder qrcode = placeholderService.getById(id);
-//        return ResponseBuilder.success(buildQrcodeDTO(qrcode));
-        return qrcode;
+    public PlaceholderVO getPlaceholder(HttpServletRequest request, @PathVariable Integer id) {
+        Placeholder model = placeholderService.getById(id);
+        PlaceholderVO vo = new PlaceholderVO();
+        vo.id = model.getId();
+        vo.address = model.getAddress();
+        vo.city_no = model.getCityNo();
+        vo.enable = model.getEnable();
+        vo.geohash = model.getGeohash();
+        vo.type = model.getType();
+        return vo;
     }
 
     @RequestMapping(method = { RequestMethod.GET }, value = "/unid/{id}", produces = "application/json; charset=UTF-8")

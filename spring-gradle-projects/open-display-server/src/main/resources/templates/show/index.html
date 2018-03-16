@@ -1,0 +1,96 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta name="viewport" content="width=device-width"></meta>
+<title>网页显示扫描结果</title>
+<meta charset="utf-8"></meta>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="//cdn.bootcss.com/mdui/0.4.0/css/mdui.min.css"/>
+</head>
+
+<body class="mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded">
+
+	<div class="mdui-appbar">
+	  <div class="mdui-toolbar mdui-color-theme">
+	    <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">menu</i></a>
+	    <a href="javascript:;" class="mdui-typo-headline">花 街</a>
+	    <div class="mdui-toolbar-spacer"></div>
+	    <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>
+	  </div>
+	</div>
+
+	<div class="mdui-container">
+	    <div style="margin-top:16px;"></div>
+	
+		<div class="mdui-panel" mdui-panel="">
+		  <div class="mdui-panel-item">
+		    <div class="mdui-panel-item-header" th:text="${item.name}">First</div>
+		    <div class="mdui-panel-item-body">
+		      <p th:text="${item.location}">Welcome to our grocery store!</p>
+		      <p th:text="${item.intro}">First content</p>
+		      <p>First content</p>
+		      <p>First content</p>
+		      <p>First content</p>
+		    </div>
+		  </div>
+		</div>
+	
+	<div style="margin-top:16px;"></div>
+	
+	<div class="mdui-card">
+	  <div class="mdui-card-media">
+	    <img src="/image/card.jpg"/>
+	    <div class="mdui-card-media-covered">
+	      <div class="mdui-card-primary">
+	        <div class="mdui-card-primary-title">高档店</div>
+	        <div class="mdui-card-primary-subtitle">Subtitle</div>
+	      </div>
+	      <div class="mdui-card-actions">
+	        <button class="mdui-btn mdui-ripple mdui-ripple-white">action 1</button>
+	        <button class="mdui-btn mdui-ripple mdui-ripple-white">action 2</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<div style="margin-top:16px;"></div>
+	
+	<div class="mdui-card">
+	  <div class="mdui-card-media">
+	    <img src="/image/card.jpg"/>
+	    <div class="mdui-card-media-covered">
+	      <div class="mdui-card-primary">
+	        <div class="mdui-card-primary-title">Title</div>
+	        <div class="mdui-card-primary-subtitle">Subtitle</div>
+	      </div>
+	      <div class="mdui-card-actions">
+	        <button class="mdui-btn mdui-ripple mdui-ripple-white">action 1</button>
+	        <button class="mdui-btn mdui-ripple mdui-ripple-white">action 2</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<div style="margin-top:16px;"></div>
+	
+	<div class="mdui-card">
+	  <div class="mdui-card-media">
+	    <img src="/image/card.jpg"/>
+	    <div class="mdui-card-media-covered">
+	      <div class="mdui-card-primary">
+	        <div class="mdui-card-primary-title">Title</div>
+	        <div class="mdui-card-primary-subtitle">Subtitle</div>
+	      </div>
+	      <div class="mdui-card-actions">
+	        <button class="mdui-btn mdui-ripple mdui-ripple-white">action 1</button>
+	        <button class="mdui-btn mdui-ripple mdui-ripple-white">action 2</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	</div>
+	<script src="//cdn.bootcss.com/mdui/0.4.0/js/mdui.min.js"></script>
+</body>
+
+</html>

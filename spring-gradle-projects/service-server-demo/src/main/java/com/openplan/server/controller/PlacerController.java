@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.openplan.server.core.http.helper.ListQueryHelper;
 import com.openplan.server.domain.model.Placer;
-import com.openplan.server.query.ListQueryHelper;
+import com.openplan.server.exception.DemoProviderException;
+import com.openplan.server.exception.ErrorCode;
 import com.openplan.server.service.PlacerService;
 
 /**
@@ -52,7 +54,7 @@ public class PlacerController {
         Placer placer = placerService.getById(id);
         if (placer == null) {
             LOG.error("actionGetById failed");
-            return new Placer();
+            throw new DemoProviderException(ErrorCode.DATA_NOT_FOUND);
         }
         return placer;
     }
